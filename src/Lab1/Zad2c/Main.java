@@ -38,7 +38,7 @@ class Watek extends Thread{
 
 }
 
-public class Z2c {
+public class Main {
 
     public static void main(String[] args){
 
