@@ -1,6 +1,3 @@
-package Lab1.Zad1;
-
-
 class Rewolwerowiec extends Thread{
 
     int liczba;
@@ -17,12 +14,16 @@ class Rewolwerowiec extends Thread{
                 System.out.println(i);
             else Thread.currentThread().interrupt();
         }
-        if(alive){
-            System.out.println("Pif! Paf!");
-            alive = false;
-        }else{
-            Thread.currentThread().interrupt();
+
+        synchronized(Rewolwerowiec.class){
+            if(alive){
+                System.out.println("Pif! Paf!");
+                alive = false;
+            }else{
+                Thread.currentThread().interrupt();
+            }
         }
+        
 
     }
 
@@ -34,7 +35,7 @@ public class Main {
 
         for(int i = 0; i < 10; i += 1){
 
-            Rewolwerowiec rew = new Rewolwerowiec(1);
+            Rewolwerowiec rew = new Rewolwerowiec(2);
             rew.start();
 
         }

@@ -32,8 +32,44 @@ public class Test {
             filozofowie.add(nowy_filozof);
         }
 
+        Statystyki statystyki = new Statystyki(filename);
+        for (Filozof filozof : filozofowie) {
+            statystyki.sledz_filozofa(filozof);
+        }
+        statystyki.start();
+
         for (Filozof filozof : filozofowie) {
             filozof.start();
+        }
+
+    }
+
+    public void run_test_arbiter(Class<? extends Filozof> filozofClass, int n, String filename) {
+
+        List<Lock> widelce = new ArrayList<>();
+        List<Filozof> filozofowie = new ArrayList<>();
+
+        Arbiter arbiter = new Arbiter(n);
+
+        for (int i = 0; i < n; i++) {
+            widelce.add(new ReentrantLock());
+        }
+
+        for (int i = 0; i < n; i++) {
+            Filozof nowy_filozof;
+            Lock leftFork = widelce.get(i);
+            Lock rightFork = widelce.get((i + 1) % n);
+
+            try {
+
+                nowy_filozof = filozofClass.getDeclaredConstructor(Lock.class, Lock.class, int.class, Arbiter.class)
+                        .newInstance(leftFork, rightFork, i, arbiter);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
+
+            filozofowie.add(nowy_filozof);
         }
 
         Statystyki statystyki = new Statystyki(filename);
@@ -41,6 +77,11 @@ public class Test {
             statystyki.sledz_filozofa(filozof);
         }
         statystyki.start();
+
+        for (Filozof filozof : filozofowie) {
+            filozof.start();
+        }
+
     }
 
 }

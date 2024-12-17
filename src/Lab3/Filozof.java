@@ -1,6 +1,7 @@
 package Lab3;
 
 import java.util.concurrent.locks.Lock;
+import java.lang.Math;
 
 public abstract class Filozof extends Thread{
 
@@ -9,8 +10,8 @@ public abstract class Filozof extends Thread{
 
         public long id_filozofa;
         public long zjadlem;
-        public long czekalem_w_sumie;
-        public long start_czekania;
+        public double czekalem_w_sumie; // w sekundach
+        public long start_czekania; // w milisekundach
 
         protected Filozof(Lock lewyWidelec, Lock prawyWidelec, int id_filozofa){
             this.lewy_widelec = lewyWidelec;
@@ -24,11 +25,17 @@ public abstract class Filozof extends Thread{
         protected void jedz(){
 
             System.out.println("Filozof " + id_filozofa + " je!");
+
             zjadlem += 1;
+            czekalem_w_sumie += (double)(System.nanoTime() - start_czekania) / Math.pow(10, 9);
+            start_czekania = 0;
 
         }
 
         protected void mysl(){
+
+            if(start_czekania == 0)
+                start_czekania = System.nanoTime();
 
             System.out.println("Filozof " + id_filozofa + " myśli!");
 

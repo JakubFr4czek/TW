@@ -27,7 +27,7 @@ public class Statystyki extends Thread{
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
                 for (Filozof filozof : filozofowie) {
 
-                    writer.write(filozof.id_filozofa + " " + filozof.zjadlem);
+                    writer.write(filozof.id_filozofa + " " + filozof.zjadlem + " " + filozof.czekalem_w_sumie);
                     writer.newLine();
 
                 }

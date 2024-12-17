@@ -1,5 +1,3 @@
-package Lab1.Zad2c;
-
 class Liczba{
 
     static int liczba = 0;
@@ -32,8 +30,6 @@ class Watek extends Thread{
             Liczba.inkrementuj_2();
         }
 
-        System.out.println(this.l);
-
     }
 
 }
@@ -56,6 +52,8 @@ public class Main {
         } catch (InterruptedException err) {
             System.out.println("Thread interrupted");
         }
+
+        System.out.println(Liczba.liczba);
 
     }
 

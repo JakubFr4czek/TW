@@ -1,5 +1,3 @@
-package Lab1.Zad2b;
-
 class Liczba{
 
     int liczba = 0;
