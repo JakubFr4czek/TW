@@ -1,5 +1,3 @@
-package Lab2;
-
 import java.util.Deque;
 import java.util.ArrayDeque;
 
@@ -46,9 +44,7 @@ class Consumer extends Thread {
 class Buffer {
     private Deque<Integer> _queue = new ArrayDeque<>();
 
-    public void put(int i) {
-
-        synchronized(this){
+    public synchronized void put(int i) {
 
             while (_queue.size() >= 10) {
                 try {
@@ -58,16 +54,14 @@ class Buffer {
                     System.exit(0);
                 }
             }
-            _queue.push(i);
+            _queue.push(i); // <=> toggle status
+
             System.out.println("Producent " + Thread.currentThread().threadId() + " wyprodukował " + i);
             notifyAll();
 
-        }
     }
 
-    public int get() {
-
-        synchronized(this){
+    public synchronized int get() {
 
             while (_queue.isEmpty()) {
                 try {
@@ -77,12 +71,11 @@ class Buffer {
                     System.exit(0);
                 }
             }
-            int item = _queue.pop();
-            System.out.println("KOnsument " + Thread.currentThread().threadId() + " zjadł " + item);
+            int item = _queue.pop(); // <=> toggle status
+            
+            System.out.println("Konsument " + Thread.currentThread().threadId() + " zjadł " + item);
             notifyAll();
             return item;
-
-        }
     }
 }
 
@@ -91,13 +84,13 @@ public class Main {
         Buffer buffer = new Buffer();
  
         //wersja 1
-        /*
+        
         Producer producer = new Producer(buffer, 1);
         Consumer consumer = new Consumer(buffer);
 
         producer.start();
         consumer.start();
-        */
+        
 
         //wersja 2
         /*
@@ -114,7 +107,7 @@ public class Main {
 
         //wersja 3
 
-        
+        /*
         Producer producer = new Producer(buffer, 1);
 
         producer.start();
@@ -123,7 +116,7 @@ public class Main {
             Consumer new_consumer = new Consumer(buffer);
             new_consumer.start();
         }
-        
+        */
         //wersja 4
         /*
         for(int i = 0; i < 10; i += 1){
